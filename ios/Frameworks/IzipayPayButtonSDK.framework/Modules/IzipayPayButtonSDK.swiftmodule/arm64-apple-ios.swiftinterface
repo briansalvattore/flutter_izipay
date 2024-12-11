@@ -1,0 +1,399 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.9.2 (swiftlang-5.9.2.2.56 clang-1500.1.0.2.5)
+// swift-module-flags: -target arm64-apple-ios12.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name IzipayPayButtonSDK
+// swift-module-flags-ignorable: -enable-bare-slash-regex
+import Darwin
+import DeveloperToolsSupport
+import Foundation
+import ImageIO
+import PassKit
+import Swift
+import SwiftUI
+import UIKit
+import WebKit
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+import os
+@objc public class CodeValueEntity : ObjectiveC.NSObject {
+  public init(code: Swift.String, value: Swift.String)
+  @objc deinit
+}
+public struct CFB {
+  public enum Error : Swift.Error {
+    case invalidInitializationVector
+    public static func == (a: IzipayPayButtonSDK.CFB.Error, b: IzipayPayButtonSDK.CFB.Error) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public enum SegmentSize : Swift.Int {
+    case cfb8
+    case cfb128
+    public init?(rawValue: Swift.Int)
+    public typealias RawValue = Swift.Int
+    public var rawValue: Swift.Int {
+      get
+    }
+  }
+  public let customBlockSize: Swift.Int?
+  public init(iv: Swift.Array<Swift.UInt8>, segmentSize: IzipayPayButtonSDK.CFB.SegmentSize = .cfb128)
+}
+public protocol IzipayPaymentDelegate {
+  func getPaymentResult(_ paymentResult: IzipayPayButtonSDK.PaymentResult)
+  func executeProfiling(_ params: IzipayPayButtonSDK.ScoringParams)
+  func executeSensoryBrandVisa(view: UIKit.UIView)
+  func executeSensoryBrandMastercard(view: UIKit.UIView, params: IzipayPayButtonSDK.MastercardSonicParams)
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) public class PaymentFormViewController : UIKit.UIViewController {
+  @_Concurrency.MainActor(unsafe) public var configPayment: IzipayPayButtonSDK.ConfigPaymentIzipay?
+  @_Concurrency.MainActor(unsafe) public var delegate: (any IzipayPayButtonSDK.IzipayPaymentDelegate)?
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func viewDidLoad()
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func prepare(for segue: UIKit.UIStoryboardSegue, sender: Any?)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func viewWillAppear(_ animated: Swift.Bool)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func viewWillDisappear(_ animated: Swift.Bool)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(nibName nibNameOrNil: Swift.String?, bundle nibBundleOrNil: Foundation.Bundle?)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+extension IzipayPayButtonSDK.PaymentFormViewController : WebKit.WKUIDelegate, WebKit.WKScriptMessageHandler {
+  @_Concurrency.MainActor(unsafe) @objc dynamic public func userContentController(_ userContentController: WebKit.WKUserContentController, didReceive message: WebKit.WKScriptMessage)
+}
+extension IzipayPayButtonSDK.PaymentFormViewController : UIKit.UITextFieldDelegate {
+  @_Concurrency.MainActor(unsafe) @objc dynamic public func textFieldDidBeginEditing(_ textField: UIKit.UITextField)
+  @_Concurrency.MainActor(unsafe) @objc dynamic public func textField(_ textField: UIKit.UITextField, shouldChangeCharactersIn range: Foundation.NSRange, replacementString string: Swift.String) -> Swift.Bool
+  @_Concurrency.MainActor(unsafe) @objc dynamic public func textFieldDidEndEditing(_ textField: UIKit.UITextField)
+}
+extension IzipayPayButtonSDK.PaymentFormViewController : PassKit.PKPaymentAuthorizationControllerDelegate {
+  @_Concurrency.MainActor(unsafe) @objc dynamic public func paymentAuthorizationControllerDidFinish(_ controller: PassKit.PKPaymentAuthorizationController)
+  @_Concurrency.MainActor(unsafe) @objc dynamic public func paymentAuthorizationController(_ controller: PassKit.PKPaymentAuthorizationController, didAuthorizePayment payment: PassKit.PKPayment, handler completion: @escaping (PassKit.PKPaymentAuthorizationResult) -> Swift.Void)
+}
+extension Foundation.URLSession : Foundation.URLSessionDelegate {
+  @objc dynamic public func urlSession(_ session: Foundation.URLSession, didReceive challenge: Foundation.URLAuthenticationChallenge, completionHandler: @escaping (Foundation.URLSession.AuthChallengeDisposition, Foundation.URLCredential?) -> Swift.Void)
+}
+@objc public protocol OTPFieldViewDelegate {
+  @objc func shouldBecomeFirstResponderForOTP(otpTextFieldIndex index: Swift.Int) -> Swift.Bool
+  @objc func enteredOTP(otp: Swift.String)
+  @objc func hasEnteredAllOTP(hasEnteredAll: Swift.Bool) -> Swift.Bool
+}
+@objc public enum DisplayType : Swift.Int {
+  case circular
+  case roundedCorner
+  case square
+  case diamond
+  case underlinedBottom
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc public enum KeyboardType : Swift.Int {
+  case numeric
+  case alphabet
+  case alphaNumeric
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@_inheritsConvenienceInitializers @objc @_Concurrency.MainActor(unsafe) public class OTPFieldView : UIKit.UIView {
+  @_Concurrency.MainActor(unsafe) public var displayType: IzipayPayButtonSDK.DisplayType
+  @_Concurrency.MainActor(unsafe) public var fieldsCount: Swift.Int
+  @_Concurrency.MainActor(unsafe) public var otpInputType: IzipayPayButtonSDK.KeyboardType
+  @_Concurrency.MainActor(unsafe) public var fieldFont: UIKit.UIFont
+  @_Concurrency.MainActor(unsafe) public var secureEntry: Swift.Bool
+  @_Concurrency.MainActor(unsafe) public var hideEnteredText: Swift.Bool
+  @_Concurrency.MainActor(unsafe) public var requireCursor: Swift.Bool
+  @_Concurrency.MainActor(unsafe) public var cursorColor: UIKit.UIColor
+  @_Concurrency.MainActor(unsafe) public var fieldSize: CoreFoundation.CGFloat
+  @_Concurrency.MainActor(unsafe) public var separatorSpace: CoreFoundation.CGFloat
+  @_Concurrency.MainActor(unsafe) public var fieldBorderWidth: CoreFoundation.CGFloat
+  @_Concurrency.MainActor(unsafe) public var shouldAllowIntermediateEditing: Swift.Bool
+  @_Concurrency.MainActor(unsafe) public var defaultBackgroundColor: UIKit.UIColor
+  @_Concurrency.MainActor(unsafe) public var filledBackgroundColor: UIKit.UIColor
+  @_Concurrency.MainActor(unsafe) public var defaultBorderColor: UIKit.UIColor
+  @_Concurrency.MainActor(unsafe) public var filledBorderColor: UIKit.UIColor
+  @_Concurrency.MainActor(unsafe) public var textColor: UIKit.UIColor
+  @_Concurrency.MainActor(unsafe) public var errorBorderColor: UIKit.UIColor?
+  @_Concurrency.MainActor(unsafe) weak public var delegate: (any IzipayPayButtonSDK.OTPFieldViewDelegate)?
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func awakeFromNib()
+  @_Concurrency.MainActor(unsafe) public func initializeUI()
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(frame: CoreFoundation.CGRect)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+extension IzipayPayButtonSDK.OTPFieldView : UIKit.UITextFieldDelegate {
+  @_Concurrency.MainActor(unsafe) @objc dynamic public func textFieldShouldBeginEditing(_ textField: UIKit.UITextField) -> Swift.Bool
+  @_Concurrency.MainActor(unsafe) @objc dynamic public func textField(_ textField: UIKit.UITextField, shouldChangeCharactersIn range: Foundation.NSRange, replacementString string: Swift.String) -> Swift.Bool
+}
+extension UIKit.UIFont {
+  public static func registerFontsForIzipayFramework()
+}
+public struct ConfigPaymentIzipay {
+  public var enviroment: Swift.String?
+  public var action: Swift.String?
+  public var publicKey: Swift.String?
+  public var transactionId: Swift.String?
+  public var merchantCode: Swift.String?
+  public var facilitatorCode: Swift.String?
+  public var order: IzipayPayButtonSDK.OrderPaymentIzipay?
+  public var token: IzipayPayButtonSDK.TokenPaymentIzipay?
+  public var billing: IzipayPayButtonSDK.BillingPaymentIzipay?
+  public var shipping: IzipayPayButtonSDK.ShippingPaymentIzipay?
+  public var appearance: IzipayPayButtonSDK.AppearencePaymentIzipay?
+  public var urlIPN: Swift.String?
+  public init()
+}
+public struct OrderPaymentIzipay {
+  public var orderNumber: Swift.String?
+  public var currency: Swift.String?
+  public var amount: Swift.String?
+  public var payMethod: [IzipayPayButtonSDK.PaymentMethodIzipay]?
+  public var processType: Swift.String?
+  public var merchantBuyerId: Swift.String?
+  public var dateTimeTransaction: Swift.String?
+  public init()
+}
+public struct BillingPaymentIzipay {
+  public var firstName: Swift.String?
+  public var lastName: Swift.String?
+  public var email: Swift.String?
+  public var phoneNumber: Swift.String?
+  public var street: Swift.String?
+  public var city: Swift.String?
+  public var state: Swift.String?
+  public var country: Swift.String?
+  public var postalCode: Swift.String?
+  public var documentType: Swift.String?
+  public var document: Swift.String?
+  public init()
+}
+public struct ShippingPaymentIzipay {
+  public var firstName: Swift.String?
+  public var lastName: Swift.String?
+  public var email: Swift.String?
+  public var phoneNumber: Swift.String?
+  public var street: Swift.String?
+  public var city: Swift.String?
+  public var state: Swift.String?
+  public var country: Swift.String?
+  public var postalCode: Swift.String?
+  public var documentType: Swift.String?
+  public var document: Swift.String?
+  public init()
+}
+public struct AppearencePaymentIzipay {
+  public var language: Swift.String?
+  public var formControls: IzipayPayButtonSDK.AppearenceControlsPaymentIzipay?
+  public var visualSettings: IzipayPayButtonSDK.AppearenceVisualSettingsPaymentIzipay?
+  public var theme: Swift.String?
+  public var customTheme: IzipayPayButtonSDK.CustomThemePaymentIzipay?
+  public var sensoryBrand: IzipayPayButtonSDK.AppearenceSensoryBrandIzipay?
+  public var logo: Swift.String?
+  public init()
+}
+public struct AppearenceControlsPaymentIzipay {
+  public var isAmountLabelVisible: Swift.Bool?
+  public var isLangControlVisible: Swift.Bool?
+  public init()
+}
+public struct AppearenceVisualSettingsPaymentIzipay {
+  public var presentationMode: IzipayPayButtonSDK.AppearencePresentationModePaymentIzipay?
+  public var showResultScreen: Swift.Bool?
+  public init()
+}
+public struct AppearenceSensoryBrandIzipay {
+  public var visaSBView: UIKit.UIView?
+  public var mastercardSBView: UIKit.UIView?
+  public init()
+}
+public enum AppearencePresentationModePaymentIzipay {
+  case embedded
+  case fullscreen
+  public static func == (a: IzipayPayButtonSDK.AppearencePresentationModePaymentIzipay, b: IzipayPayButtonSDK.AppearencePresentationModePaymentIzipay) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public struct CustomThemePaymentIzipay {
+  public var payButtonBackgroundColor: Swift.String?
+  public var textInputBorderColor: Swift.String?
+  public var textInputPlaceholderTextColor: Swift.String?
+  public init()
+}
+public struct TokenPaymentIzipay {
+  public var cardToken: Swift.String?
+  public init()
+}
+public enum PaymentMethodIzipay {
+  case card
+  case apple_pay
+  case yape_code
+  case all
+  public static func == (a: IzipayPayButtonSDK.PaymentMethodIzipay, b: IzipayPayButtonSDK.PaymentMethodIzipay) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) public class PaymentFormViewControllerOLD : UIKit.UIViewController {
+  @_Concurrency.MainActor(unsafe) public var configPayment: IzipayPayButtonSDK.ConfigPaymentIzipay?
+  @_Concurrency.MainActor(unsafe) public var delegate: (any IzipayPayButtonSDK.IzipayPaymentDelegate)?
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func viewDidLoad()
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func viewWillAppear(_ animated: Swift.Bool)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func viewWillDisappear(_ animated: Swift.Bool)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(nibName nibNameOrNil: Swift.String?, bundle nibBundleOrNil: Foundation.Bundle?)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+extension IzipayPayButtonSDK.PaymentFormViewControllerOLD : WebKit.WKUIDelegate, WebKit.WKScriptMessageHandler {
+  @_Concurrency.MainActor(unsafe) @objc dynamic public func userContentController(_ userContentController: WebKit.WKUserContentController, didReceive message: WebKit.WKScriptMessage)
+}
+extension IzipayPayButtonSDK.PaymentFormViewControllerOLD : UIKit.UITextFieldDelegate {
+  @_Concurrency.MainActor(unsafe) @objc dynamic public func textFieldDidBeginEditing(_ textField: UIKit.UITextField)
+  @_Concurrency.MainActor(unsafe) @objc dynamic public func textField(_ textField: UIKit.UITextField, shouldChangeCharactersIn range: Foundation.NSRange, replacementString string: Swift.String) -> Swift.Bool
+  @_Concurrency.MainActor(unsafe) @objc dynamic public func textFieldDidEndEditing(_ textField: UIKit.UITextField)
+}
+extension IzipayPayButtonSDK.PaymentFormViewControllerOLD : PassKit.PKPaymentAuthorizationControllerDelegate {
+  @_Concurrency.MainActor(unsafe) @objc dynamic public func paymentAuthorizationControllerDidFinish(_ controller: PassKit.PKPaymentAuthorizationController)
+  @_Concurrency.MainActor(unsafe) @objc dynamic public func paymentAuthorizationController(_ controller: PassKit.PKPaymentAuthorizationController, didAuthorizePayment payment: PassKit.PKPayment, handler completion: @escaping (PassKit.PKPaymentAuthorizationResult) -> Swift.Void)
+}
+public struct PaymentResult : Swift.CustomStringConvertible {
+  public var code: Swift.String?
+  public var message: Swift.String?
+  public var messageUser: Swift.String?
+  public var messageUserEng: Swift.String?
+  public var response: IzipayPayButtonSDK.PaymentResultResponse?
+  public var payloadHttp: Swift.String?
+  public var signature: Swift.String?
+  public var transactionId: Swift.String?
+  public init()
+  public var description: Swift.String {
+    get
+  }
+}
+public struct PaymentResultResponse : Swift.CustomStringConvertible {
+  public var payMethod: Swift.String?
+  public var order: [IzipayPayButtonSDK.PaymentResultOrder]?
+  public var card: IzipayPayButtonSDK.PaymentResultCard?
+  public var billing: IzipayPayButtonSDK.PaymentResultBilling?
+  public var merchant: IzipayPayButtonSDK.PaymentResultMerchant?
+  public var token: IzipayPayButtonSDK.PaymentResultToken?
+  public var authentication: IzipayPayButtonSDK.PaymentResultAuthentication?
+  public var customFields: [Swift.String?]?
+  public var miles: IzipayPayButtonSDK.PaymentResultMiles?
+  public init()
+  public var description: Swift.String {
+    get
+  }
+}
+public struct PaymentResultOrder : Swift.CustomStringConvertible {
+  public var payMethodAuthorization: Swift.String?
+  public var codeAuth: Swift.String?
+  public var currency: Swift.String?
+  public var amount: Swift.String?
+  public var installment: Swift.String?
+  public var deferred: Swift.String?
+  public var orderNumber: Swift.String?
+  public var stateMessage: Swift.String?
+  public var dateTransaction: Swift.String?
+  public var timeTransaction: Swift.String?
+  public var uniqueId: Swift.String?
+  public var referenceNumber: Swift.String?
+  public init()
+  public var description: Swift.String {
+    get
+  }
+}
+public struct PaymentResultBilling : Swift.CustomStringConvertible {
+  public var firstName: Swift.String?
+  public var lastName: Swift.String?
+  public var email: Swift.String?
+  public var phoneNumber: Swift.String?
+  public var street: Swift.String?
+  public var city: Swift.String?
+  public var state: Swift.String?
+  public var country: Swift.String?
+  public var postalCode: Swift.String?
+  public var documentType: Swift.String?
+  public var document: Swift.String?
+  public var companyName: Swift.String?
+  public init()
+  public var description: Swift.String {
+    get
+  }
+}
+public struct PaymentResultCard : Swift.CustomStringConvertible {
+  public var brand: Swift.String?
+  public var pan: Swift.String?
+  public var save: Swift.String?
+  public init()
+  public var description: Swift.String {
+    get
+  }
+}
+public struct PaymentResultMerchant : Swift.CustomStringConvertible {
+  public var merchantCode: Swift.String?
+  public var facilitatorCode: Swift.String?
+  public init()
+  public var description: Swift.String {
+    get
+  }
+}
+public struct PaymentResultToken : Swift.CustomStringConvertible {
+  public var cardToken: Swift.String?
+  public var merchantBuyerId: Swift.String?
+  public var alias: Swift.String?
+  public init()
+  public var description: Swift.String {
+    get
+  }
+}
+public struct PaymentResultAuthentication : Swift.CustomStringConvertible {
+  public var result: Swift.String?
+  public init()
+  public var description: Swift.String {
+    get
+  }
+}
+public struct PaymentResultMiles : Swift.CustomStringConvertible {
+  public var netMiles: Swift.String?
+  public var miles: Swift.String?
+  public init()
+  public var description: Swift.String {
+    get
+  }
+}
+public struct ScoringParams {
+  public var userOrg: Swift.String?
+  public var userScoring: Swift.String?
+  public var randomFp: Swift.String?
+  public let defaultServer: Swift.String?
+  public let intents: Swift.Int
+  public let timeout: Swift.Int
+}
+public struct MastercardSonicParams {
+  public var name: Swift.String
+  public var country: Swift.String
+  public var mcc: Swift.String
+  public var sonicCue: Swift.String
+}
+extension IzipayPayButtonSDK.CFB.Error : Swift.Equatable {}
+extension IzipayPayButtonSDK.CFB.Error : Swift.Hashable {}
+extension IzipayPayButtonSDK.CFB.SegmentSize : Swift.Equatable {}
+extension IzipayPayButtonSDK.CFB.SegmentSize : Swift.Hashable {}
+extension IzipayPayButtonSDK.CFB.SegmentSize : Swift.RawRepresentable {}
+extension IzipayPayButtonSDK.DisplayType : Swift.Equatable {}
+extension IzipayPayButtonSDK.DisplayType : Swift.Hashable {}
+extension IzipayPayButtonSDK.DisplayType : Swift.RawRepresentable {}
+extension IzipayPayButtonSDK.KeyboardType : Swift.Equatable {}
+extension IzipayPayButtonSDK.KeyboardType : Swift.Hashable {}
+extension IzipayPayButtonSDK.KeyboardType : Swift.RawRepresentable {}
+extension IzipayPayButtonSDK.AppearencePresentationModePaymentIzipay : Swift.Equatable {}
+extension IzipayPayButtonSDK.AppearencePresentationModePaymentIzipay : Swift.Hashable {}
+extension IzipayPayButtonSDK.PaymentMethodIzipay : Swift.Equatable {}
+extension IzipayPayButtonSDK.PaymentMethodIzipay : Swift.Hashable {}

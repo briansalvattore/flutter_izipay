@@ -1,0 +1,4 @@
+framework module IzipayPayButtonSDK {
+  header "IzipayPayButtonSDK-Swift.h"
+  requires objc
+}

@@ -1,0 +1,31 @@
+name: flutter_izipay
+description: "A new Flutter plugin project for Izipay"
+version: 0.0.1
+maintainer: Brian Salvattore (@briansalvattore)
+homepage: https://github.com/briansalvattore/flutter_izipay
+repository: https://github.com/briansalvattore/flutter_izipay
+issue_tracker: https://github.com/briansalvattore/flutter_izipay/issues
+
+environment:
+  sdk: ^3.5.4
+  flutter: '>=3.3.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  plugin_platform_interface: 2.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  very_good_analysis: 6.0.0
+
+flutter:
+  plugin:
+    platforms:
+      android:
+        package: com.briansalvattore.flutter_izipay
+        pluginClass: FlutterIzipayPlugin
+      ios:
+        pluginClass: FlutterIzipayPlugin
