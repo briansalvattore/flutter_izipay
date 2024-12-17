@@ -1,38 +1,70 @@
 import Flutter
-import UIKit
 import IzipayPayButtonSDK
-import VisaSensoryBranding
 import MastercardSonic
+import UIKit
+import VisaSensoryBranding
 
 public class FlutterIzipayPlugin: NSObject, FlutterPlugin, IzipayPaymentDelegate {
+  private var eventSink: FlutterEventSink?
 
   private let sonicManager: MCSonicController = MCSonicController()
 
   public static func register(with registrar: FlutterPluginRegistrar) {
-    let channel = FlutterMethodChannel(
-      name: "flutter_izipay", binaryMessenger: registrar.messenger())
-    let instance = FlutterIzipayPlugin()
-    registrar.addMethodCallDelegate(instance, channel: channel)
+    let methodChannel = FlutterMethodChannel(
+      name: "flutter_izipay/method_channel", binaryMessenger: registrar.messenger())
+    let eventChannel = FlutterEventChannel(
+      name: "flutter_izipay/event_channel", binaryMessenger: registrar.messenger())
+
+    let instance: FlutterIzipayPlugin = FlutterIzipayPlugin()
+    registrar.addMethodCallDelegate(instance, channel: methodChannel)
+
+    eventChannel.setStreamHandler(instance)
   }
 
   public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
     switch call.method {
-    case "getPlatformVersion":
-      result("iOS " + UIDevice.current.systemVersion)
     case "openFormToSaveCard":
+      if let rootViewController = UIApplication.shared.windows.first?.rootViewController {
+        rootViewController.overrideUserInterfaceStyle = .light
+      }
+
       if let args = call.arguments as? [String: String] {
+        let street = args["street"]!
+        let city = args["city"]!
+        let state = args["state"]!
+        let country = args["country"]!
+        let postalCode = args["postalCode"]!
+        let logoUrl = args["logoUrl"]!
+        let userId = args["userId"]!
+        let firstName = args["firstName"]!
+        let lastName = args["lastName"]!
+        let email = args["email"]!
+        let phoneNumber = args["phoneNumber"]!
+        let documentType = args["documentType"]!
+        let documentNumber = args["documentNumber"]!
         let environment = args["environment"]!
         let merchantCode = args["merchantCode"]!
         let publicKey = args["publicKey"]!
         let transactionId = args["transactionId"]!
-        let action = args["action"]!
 
         openFormToSaveCard(
+          street: street,
+          city: city,
+          state: state,
+          country: country,
+          postalCode: postalCode,
+          logoUrl: logoUrl,
+          userId: userId,
+          firstName: firstName,
+          lastName: lastName,
+          email: email,
+          phoneNumber: phoneNumber,
+          documentType: documentType,
+          documentNumber: documentNumber,
           environment: environment,
           merchantCode: merchantCode,
           publicKey: publicKey,
-          transactionId: transactionId,
-          action: action
+          transactionId: transactionId
         )
         result(nil)
       }
@@ -42,58 +74,86 @@ public class FlutterIzipayPlugin: NSObject, FlutterPlugin, IzipayPaymentDelegate
   }
 
   func openFormToSaveCard(
+    street: String,
+    city: String,
+    state: String,
+    country: String,
+    postalCode: String,
+    logoUrl: String,
+    userId: String,
+    firstName: String,
+    lastName: String,
+    email: String,
+    phoneNumber: String,
+    documentType: String,
+    documentNumber: String,
     environment: String,
     merchantCode: String,
     publicKey: String,
-    transactionId: String,
-    action: String
+    transactionId: String
   ) {
-    let random = Int.random(in: 356547157..<366547157)
-    let tranxId = "\(random)"
+    let date = Date()
+    let milliseconds = Int(date.timeIntervalSince1970 * 1000)
 
-    print(tranxId)
-    
     var configPayment = ConfigPaymentIzipay()
     configPayment.enviroment = environment
     configPayment.merchantCode = merchantCode
 
     configPayment.publicKey = publicKey
 
-    configPayment.transactionId = tranxId
-    configPayment.action = "register"
+    configPayment.transactionId = transactionId
+    configPayment.action = "register"  // "pay_token" //register
 
     configPayment.order = OrderPaymentIzipay()
-    configPayment.order?.orderNumber = "10\(random)"
-    configPayment.order?.amount = "2.00" // si action=register puede ser 0, si no
+    configPayment.order?.orderNumber = "10\(transactionId)"
+    configPayment.order?.amount = "0.00"  // si action=register puede ser 0, si no
     configPayment.order?.currency = "PEN"
     configPayment.order?.processType = "autorize"
-    configPayment.order?.payMethod = [.all]
-    configPayment.order?.merchantBuyerId = "MB10\(random)"
+    configPayment.order?.payMethod = [PaymentMethodIzipay.card]  //[.all]
+    configPayment.order?.merchantBuyerId = userId  //"MB10\(transactionId)"
+    configPayment.order?.dateTimeTransaction = "\(milliseconds)"
 
-    //...
     configPayment.billing = BillingPaymentIzipay()
-    configPayment.billing?.firstName = "Jose"
-    configPayment.billing?.lastName = "Perez"
-    configPayment.billing?.email = "jperez@itest.com"
-    configPayment.billing?.phoneNumber = "958745896"
-    configPayment.billing?.street = "Av. Jorge Chávez 275"
-    configPayment.billing?.city = "Lima"
-    configPayment.billing?.state = "Lima"
+    configPayment.billing?.firstName = firstName
+    configPayment.billing?.lastName = lastName
+    configPayment.billing?.email = email
+    configPayment.billing?.phoneNumber = phoneNumber
+    configPayment.billing?.street = street
+    configPayment.billing?.city = city
+    configPayment.billing?.state = state
+    configPayment.billing?.country = country
+    configPayment.billing?.postalCode = postalCode
+    configPayment.billing?.documentType = documentType
+    configPayment.billing?.document = documentNumber
 
-    //...
     configPayment.shipping = ShippingPaymentIzipay()
 
-    //...
     configPayment.token = TokenPaymentIzipay()
 
     configPayment.appearance = AppearencePaymentIzipay()
-    configPayment.appearance?.theme = "green"
-    configPayment.appearance?.logo = "URL"
+    configPayment.appearance?.theme = "purple"
+    configPayment.appearance?.logo = logoUrl
     configPayment.appearance?.formControls = AppearenceControlsPaymentIzipay()
     configPayment.appearance?.formControls?.isAmountLabelVisible = true
-    configPayment.appearance?.formControls?.isLangControlVisible = true
+    configPayment.appearance?.formControls?.isLangControlVisible = false
     configPayment.appearance?.language = "ESP"
     configPayment.appearance?.customTheme = CustomThemePaymentIzipay()
+
+    configPayment.appearance?.visualSettings = AppearenceVisualSettingsPaymentIzipay()
+    configPayment.appearance?.visualSettings?.presentationMode = .fullscreen
+
+    let sensoryBrandingVisa = SensoryBranding()
+    sensoryBrandingVisa.backdropColor = .white
+    sensoryBrandingVisa.isSoundEnabled = true
+    sensoryBrandingVisa.isHapticFeedbackEnabled = true
+    sensoryBrandingVisa.checkmarkMode = .checkmark
+
+    let sensoryBrandMastercard = MCSonicView()
+    sensoryBrandMastercard.background = MCSonicBackground.white
+
+    configPayment.appearance?.sensoryBrand = AppearenceSensoryBrandIzipay()
+    configPayment.appearance?.sensoryBrand?.visaSBView = sensoryBrandingVisa
+    configPayment.appearance?.sensoryBrand?.mastercardSBView = sensoryBrandMastercard
 
     configPayment.urlIPN = nil
 
@@ -120,8 +180,25 @@ public class FlutterIzipayPlugin: NSObject, FlutterPlugin, IzipayPaymentDelegate
   }
 
   public func getPaymentResult(_ paymentResult: PaymentResult) {
-    print(paymentResult.code ?? "")
-    print(paymentResult.message ?? "")
+    let resultCode = paymentResult.code ?? ""
+
+    if resultCode == "00" {
+      let cardToken = paymentResult.response?.token?.cardToken
+
+      print(cardToken ?? "No se encontró el cardToken")
+
+      let dataToSend: [String: Any?] = [
+        "success": true,
+        "cardToken": cardToken,
+      ]
+      self.sendResultToFlutter(result: dataToSend)
+    } else {
+      let dataToSend: [String: Any?] = [
+        "success": false,
+        "cardToken": nil,
+      ]
+      self.sendResultToFlutter(result: dataToSend)
+    }
   }
 
   public func executeProfiling(_ result: IzipayPayButtonSDK.ScoringParams) {
@@ -153,6 +230,25 @@ public class FlutterIzipayPlugin: NSObject, FlutterPlugin, IzipayPaymentDelegate
           }
         }
       }
+    }
+  }
+}
+extension FlutterIzipayPlugin: FlutterStreamHandler {
+  public func onListen(withArguments arguments: Any?, eventSink events: @escaping FlutterEventSink)
+    -> FlutterError?
+  {
+    self.eventSink = events
+    return nil
+  }
+
+  public func onCancel(withArguments arguments: Any?) -> FlutterError? {
+    self.eventSink = nil
+    return nil
+  }
+
+  public func sendResultToFlutter(result: [String: Any?]) {
+    if let sink = eventSink {
+      sink(result)
     }
   }
 }

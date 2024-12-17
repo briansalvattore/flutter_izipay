@@ -1,7 +1,6 @@
-import 'package:flutter/material.dart';
-import 'dart:async';
+import 'dart:math';
 
-import 'package:flutter/services.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_izipay/flutter_izipay.dart';
 
 void main() {
@@ -16,34 +15,16 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _platformVersion = 'Unknown';
   final _flutterIzipayPlugin = FlutterIzipay();
 
   @override
   void initState() {
     super.initState();
-    initPlatformState();
-  }
 
-  // Platform messages are asynchronous, so we initialize in an async method.
-  Future<void> initPlatformState() async {
-    String platformVersion;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    // We also handle the message potentially returning null.
-    try {
-      platformVersion = await _flutterIzipayPlugin.getPlatformVersion() ??
-          'Unknown platform version';
-    } on PlatformException {
-      platformVersion = 'Failed to get platform version.';
-    }
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    if (!mounted) return;
-
-    setState(() {
-      _platformVersion = platformVersion;
+    _flutterIzipayPlugin.resultStream.listen((data) {
+      print('data');
+      print(data.success);
+      print(data.cardToken);
     });
   }
 
@@ -58,19 +39,39 @@ class _MyAppState extends State<MyApp> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('Running on: $_platformVersion\n'),
-              const SizedBox(height: 20.0),
               FilledButton(
                 onPressed: () {
-                  const iziPayConfig = (
-                    environment: 'SBOX',
-                    merchantCode: '4004353',
-                    publicKey: 'VErethUtraQuxas57wuMuquprADrAHAb',
-                    transactionId: '00000001',
-                    action: 'register',
-                  );
+                  final random =
+                      356547157 + Random().nextInt(366547157 - 356547157);
 
-                  _flutterIzipayPlugin.openFormToSaveCard(iziPayConfig);
+                  _flutterIzipayPlugin.openFormToSaveCard(
+                    config: (
+                      environment: 'SBOX',
+                      merchantCode: '4004353',
+                      publicKey: 'VErethUtraQuxas57wuMuquprADrAHAb',
+                      transactionId: '$random',
+                    ),
+                    user: (
+                      userId: '1234567890',
+                      firstName: 'Juan',
+                      lastName: 'Perez',
+                      email: 'juan.perez@example.com',
+                      phoneNumber: '999999999',
+                      documentType: 'DNI',
+                      documentNumber: '12345678',
+                    ),
+                    address: (
+                      street: 'Calle 123',
+                      city: 'Lima',
+                      state: 'Lima',
+                      country: 'PE',
+                      postalCode: '12345',
+                    ),
+                    theme: (
+                      logoUrl:
+                          'https://prestalia.pe/Content/img/logo-prestalia-bank-color.svg',
+                    ),
+                  );
                 },
                 child: const Text('Abrir form'),
               ),

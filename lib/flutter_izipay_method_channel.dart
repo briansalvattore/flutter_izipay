@@ -1,24 +1,19 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_izipay/flutter_izipay_platform_interface.dart';
 
-/// An implementation of [FlutterIzipayPlatform] that uses method channels.
 class MethodChannelFlutterIzipay extends FlutterIzipayPlatform {
-  /// The method channel used to interact with the native platform.
-  @visibleForTesting
-  final methodChannel = const MethodChannel('flutter_izipay');
+  final methodChannel = const MethodChannel('flutter_izipay/method_channel');
+  final eventChannel = const EventChannel('flutter_izipay/event_channel');
 
   @override
-  Future<String?> getPlatformVersion() async {
-    final version =
-        await methodChannel.invokeMethod<String>('getPlatformVersion');
-    return version;
+  Stream<Map<String, dynamic>> resultStream() {
+    return eventChannel.receiveBroadcastStream().map(
+          (e) => Map<String, dynamic>.from(e as Map<dynamic, dynamic>),
+        );
   }
 
   @override
-  Future<String?> openFormToSaveCard(Map<String, String> config) async {
-    final version =
-        await methodChannel.invokeMethod<String>('openFormToSaveCard', config);
-    return version;
+  Future<void> openFormToSaveCard(Map<String, String> allConfigs) async {
+    return methodChannel.invokeMethod<void>('openFormToSaveCard', allConfigs);
   }
 }
