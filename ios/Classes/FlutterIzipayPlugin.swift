@@ -134,7 +134,7 @@ public class FlutterIzipayPlugin: NSObject, FlutterPlugin, IzipayPaymentDelegate
     configPayment.appearance?.theme = "purple"
     configPayment.appearance?.logo = logoUrl
     configPayment.appearance?.formControls = AppearenceControlsPaymentIzipay()
-    configPayment.appearance?.formControls?.isAmountLabelVisible = true
+    configPayment.appearance?.formControls?.isAmountLabelVisible = false
     configPayment.appearance?.formControls?.isLangControlVisible = false
     configPayment.appearance?.language = "ESP"
     configPayment.appearance?.customTheme = CustomThemePaymentIzipay()

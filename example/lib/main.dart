@@ -69,7 +69,7 @@ class _MyAppState extends State<MyApp> {
                     ),
                     theme: (
                       logoUrl:
-                          'https://prestalia.pe/Content/img/logo-prestalia-bank-color.svg',
+                          'https://www.ensalza.com/blog/wp-content/uploads/que-es-jpg.png',
                     ),
                   );
                 },
