@@ -6,28 +6,43 @@ class FlutterIzipay {
       return (
         success: (e['success'] as bool?) ?? false,
         cardToken: e['cardToken'] as String?,
+        cardPan: e['cardPan'] as String?,
       );
     });
   }
 
   Future<void> openFormToSaveCard({
     required IziPayConfig config,
+    required String transactionId,
     required IziPayUser user,
     required IziPayAddress address,
     required IziPayTheme theme,
+    String webhookUrl = '_blank',
   }) {
     return FlutterIzipayPlatform.instance.openFormToSaveCard({
       ...config.toJson(),
+      'transactionId': transactionId,
+      'orderNumber': _adjust13Length(transactionId),
+      'webhookUrl': webhookUrl,
       ...user.toJson(),
       ...address.toJson(),
       ...theme.toJson(),
     });
+  }
+
+  String _adjust13Length(String value) {
+    if (value.length > 13) {
+      return value.substring(value.length - 13);
+    }
+
+    return value.padLeft(13, '0');
   }
 }
 
 typedef IziPayResult = ({
   bool success,
   String? cardToken,
+  String? cardPan,
 });
 
 typedef IziPayConfig = ({
@@ -82,7 +97,7 @@ extension IziPayThemeExtension on IziPayTheme {
 extension IziPayUserExtension on IziPayUser {
   Map<String, String> toJson() {
     return {
-      'userId': userId,
+      'userId': 'U$userId',
       'firstName': firstName,
       'lastName': lastName,
       'email': email,
@@ -99,7 +114,6 @@ extension IziPayConfigExtension on IziPayConfig {
       'environment': environment,
       'merchantCode': merchantCode,
       'publicKey': publicKey,
-      'transactionId': transactionId,
     };
   }
 }

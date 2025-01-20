@@ -13,6 +13,9 @@ import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+
 import com.izipay.izipay_pw_sdk.data.model.ConfigRequest
 import com.izipay.izipay_pw_sdk.data.model.OrderPaymentIzipay
 import com.izipay.izipay_pw_sdk.data.model.PayOption
@@ -23,6 +26,7 @@ import com.izipay.izipay_pw_sdk.data.model.AppearencePaymentIzipay
 import com.izipay.izipay_pw_sdk.data.model.AppearenceControlsPaymentIzipay
 import com.izipay.izipay_pw_sdk.data.model.AppearenceVisualSettingsPaymentIzipay
 import com.izipay.izipay_pw_sdk.data.model.CustomThemePaymentIzipay
+import com.izipay.izipay_pw_sdk.domain.model.PaymentResponse
 import com.izipay.izipay_pw_sdk.ui.fullscreend.ContainerActivity
 
 class FlutterIzipayPlugin: FlutterPlugin, MethodCallHandler, EventChannel.StreamHandler, ActivityAware {
@@ -84,11 +88,12 @@ class FlutterIzipayPlugin: FlutterPlugin, MethodCallHandler, EventChannel.Stream
   override fun onListen(arguments: Any?, events: EventChannel.EventSink?) {
     eventSink = events
     
-    val eventData = mapOf(
+    /* val eventData = mapOf(
       "success" to false,
       "cardToken" to null,
+      "cardPan" to null,
     )
-    sendEvent(eventData)
+    sendEvent(eventData) */
   }
 
   override fun onCancel(arguments: Any?) {
@@ -100,27 +105,21 @@ class FlutterIzipayPlugin: FlutterPlugin, MethodCallHandler, EventChannel.Stream
   }
 
   private fun openFormToSaveCard(map: Map<String, String>) {
-      for ((key, value) in map) {
-        println("Key: $key, Value: $value")
-      }
-
-      val transactionId = map["transactionId"] as String
-
       val request = ConfigRequest(
         map["environment"] as String,
         "register",
         map["publicKey"] as String,
-        transactionId,
+        map["transactionId"] as String,
         map["merchantCode"] as String,
         "",
         OrderPaymentIzipay(
-          "10$$transactionId",
+          map["orderNumber"] as String, //siempre debe tener 13 dígitos
           "PEN",
           "0.00",
           arrayListOf(PayOption.CARD),
           "mobile",
           "autorize",
-          map["userId"] as String,
+          map["userId"] as String, // siempre debe tener una letra
           System.currentTimeMillis().toString(),
         ),
         TokenPaymentIzipay(
@@ -139,19 +138,7 @@ class FlutterIzipayPlugin: FlutterPlugin, MethodCallHandler, EventChannel.Stream
           map["documentType"] as String,
           map["documentNumber"] as String,
         ),
-        ShippingPaymentIzipay(
-          "Juan", 
-          "Perez", 
-          "jperez@example.com", 
-          "995999052", 
-          "Calle 123", 
-          "Lima", 
-          "Lima", 
-          "PE", 
-          "12345", 
-          "DNI", 
-          "12345678"
-        ),
+        null,
         AppearencePaymentIzipay(
           "ESP",
           AppearenceControlsPaymentIzipay(
@@ -163,25 +150,38 @@ class FlutterIzipayPlugin: FlutterPlugin, MethodCallHandler, EventChannel.Stream
           ),
           "purple",
           CustomThemePaymentIzipay(
-            "#FF0000",
-            "#FF0000",
-            "#FF0000",
+            "#333399",
+            "#333399",
+            "#333399",
           ),
           map["logoUrl"] as String,
         ),
-        "https://ezipay.com...",
+        map["webhookUrl"] as String,
       )
 
-      println("request: $request")
-
       val intent = Intent(activity!!, ContainerActivity::class.java)
-      intent.putExtra(ContainerActivity.REQUEST, request) // request es una instancia de CONFIGREQUEST
+      intent.putExtra(ContainerActivity.REQUEST, request)
       activity!!.startActivityForResult(intent, REQUEST_CODE_IZIPAY)
   }
 
   private fun handleActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-      println("requestCode: $requestCode")
-      println("resultCode: $resultCode")
-      println("data: $data")
+      if (requestCode == REQUEST_CODE_IZIPAY) {
+        if (resultCode == Activity.RESULT_OK) {
+            val dataPayLoad: PaymentResponse = Gson().fromJson(data?.getStringExtra(ContainerActivity.RESPONSEPAYLOAD).orEmpty(), object: TypeToken<PaymentResponse>(){}.type)
+
+            val eventData = mapOf(
+              "success" to true,
+              "cardToken" to dataPayLoad.response?.token?.cardToken,
+              "cardPan" to dataPayLoad.response?.card?.pan,
+            )
+            sendEvent(eventData)
+        } 
+        else {
+            val eventData = mapOf(
+              "success" to false,
+            )
+            sendEvent(eventData)
+        }
+      }
   }
 }

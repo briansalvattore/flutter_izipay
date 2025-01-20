@@ -22,7 +22,7 @@ class _MyAppState extends State<MyApp> {
     super.initState();
 
     _flutterIzipayPlugin.resultStream.listen((data) {
-      print('data');
+      print('--------_>xdata');
       print(data.success);
       print(data.cardToken);
     });
@@ -44,13 +44,16 @@ class _MyAppState extends State<MyApp> {
                   final random =
                       356547157 + Random().nextInt(366547157 - 356547157);
 
+                  final config = (
+                    environment: 'SBOX',
+                    merchantCode: '4004353',
+                    publicKey: 'VErethUtraQuxas57wuMuquprADrAHAb',
+                    transactionId: '$random',
+                  );
+
                   _flutterIzipayPlugin.openFormToSaveCard(
-                    config: (
-                      environment: 'SBOX',
-                      merchantCode: '4004353',
-                      publicKey: 'VErethUtraQuxas57wuMuquprADrAHAb',
-                      transactionId: '$random',
-                    ),
+                    config: config,
+                    transactionId: '$random',
                     user: (
                       userId: '1234567890',
                       firstName: 'Juan',
