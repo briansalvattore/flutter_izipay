@@ -1,16 +1,22 @@
 # flutter_izipay_example
 
-Demonstrates how to use the flutter_izipay plugin.
+## flutter_izipay
 
-## Getting Started
+para importar flutter_izipay en android es necesario configurar el hilt
 
-This project is a starting point for a Flutter application.
+- importar hilt
+implementation "com.google.dagger:hilt-android:2.44"
+kapt "com.google.dagger:hilt-compiler:2.44"
 
-A few resources to get you started if this is your first Flutter project:
+- usarlo de plugin
+id 'kotlin-kapt'
+id 'com.google.dagger.hilt.android'
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+id 'com.google.dagger.hilt.android' version '2.44' apply false
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- crear una clase application
+
+@HiltAndroidApp
+class ExampleApplication : Application()
+
+- agregar la referencia en el manifest
