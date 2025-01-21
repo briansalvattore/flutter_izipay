@@ -7,6 +7,7 @@ class FlutterIzipay {
         success: (e['success'] as bool?) ?? false,
         cardToken: e['cardToken'] as String?,
         cardPan: e['cardPan'] as String?,
+        cardBrand: e['cardBrand'] as String?,
       );
     });
   }
@@ -43,6 +44,7 @@ typedef IziPayResult = ({
   bool success,
   String? cardToken,
   String? cardPan,
+  String? cardBrand,
 });
 
 typedef IziPayConfig = ({
@@ -97,7 +99,7 @@ extension IziPayThemeExtension on IziPayTheme {
 extension IziPayUserExtension on IziPayUser {
   Map<String, String> toJson() {
     return {
-      'userId': 'U$userId',
+      'userId': userId,
       'firstName': firstName,
       'lastName': lastName,
       'email': email,

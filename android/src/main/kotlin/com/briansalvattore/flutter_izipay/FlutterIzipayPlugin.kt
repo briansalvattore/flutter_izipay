@@ -168,11 +168,11 @@ class FlutterIzipayPlugin: FlutterPlugin, MethodCallHandler, EventChannel.Stream
       if (requestCode == REQUEST_CODE_IZIPAY) {
         if (resultCode == Activity.RESULT_OK) {
             val dataPayLoad: PaymentResponse = Gson().fromJson(data?.getStringExtra(ContainerActivity.RESPONSEPAYLOAD).orEmpty(), object: TypeToken<PaymentResponse>(){}.type)
-
             val eventData = mapOf(
               "success" to true,
               "cardToken" to dataPayLoad.response?.token?.cardToken,
               "cardPan" to dataPayLoad.response?.card?.pan,
+              "cardBrand" to dataPayLoad.response?.card?.brand,
             )
             sendEvent(eventData)
         } 
