@@ -24,7 +24,7 @@ class _MyAppState extends State<MyApp> {
     _flutterIzipayPlugin.resultStream.listen((data) {
       print('--------_>xdata');
       print(data.success);
-      print(data.cardToken);
+      // print(data.cardToken);
     });
   }
 

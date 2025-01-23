@@ -1,13 +1,16 @@
 import 'package:flutter_izipay/flutter_izipay_platform_interface.dart';
 
 class FlutterIzipay {
+  final kIzipaySuccess = '00';
+
   Stream<IziPayResult> get resultStream {
     return FlutterIzipayPlatform.instance.resultStream().map((e) {
+      final code = (e['code'] as String?) ?? '';
+
       return (
-        success: (e['success'] as bool?) ?? false,
-        cardToken: e['cardToken'] as String?,
-        cardPan: e['cardPan'] as String?,
-        cardBrand: e['cardBrand'] as String?,
+        success: code == kIzipaySuccess,
+        code: code,
+        card: IziPayCardExtension.fromJson(e),
       );
     });
   }
@@ -38,13 +41,39 @@ class FlutterIzipay {
 
     return value.padLeft(13, '0');
   }
+
+  Future<void> payDirectly({
+    required IziPayConfig config,
+    required String transactionId,
+    required String amount,
+    required IziPayUser user,
+    required IziPayAddress address,
+    required IziPayTheme theme,
+    String webhookUrl = '_blank',
+  }) {
+    return FlutterIzipayPlatform.instance.openFormToPay({
+      ...config.toJson(),
+      'transactionId': transactionId,
+      'orderNumber': _adjust13Length(transactionId),
+      'webhookUrl': webhookUrl,
+      'amount': amount,
+      ...user.toJson(),
+      ...address.toJson(),
+      ...theme.toJson(),
+    });
+  }
 }
 
 typedef IziPayResult = ({
   bool success,
-  String? cardToken,
-  String? cardPan,
-  String? cardBrand,
+  String code,
+  IziPayCard card,
+});
+
+typedef IziPayCard = ({
+  String cardToken,
+  String cardPan,
+  String cardBrand,
 });
 
 typedef IziPayConfig = ({
@@ -85,6 +114,24 @@ extension IziPayAddressExtension on IziPayAddress {
       'country': country,
       'postalCode': postalCode,
     };
+  }
+}
+
+extension IziPayCardExtension on IziPayCard {
+  static IziPayCard fromJson(Map<String, dynamic> json) {
+    return (
+      cardToken: (json['cardToken'] as String?) ?? '',
+      cardPan: (json['cardPan'] as String?) ?? '',
+      cardBrand: (json['cardBrand'] as String?) ?? '',
+    );
+  }
+
+  static IziPayCard withToken(String cardToken) {
+    return (
+      cardToken: cardToken,
+      cardPan: '',
+      cardBrand: '',
+    );
   }
 }
 

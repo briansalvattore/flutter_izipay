@@ -16,4 +16,9 @@ class MethodChannelFlutterIzipay extends FlutterIzipayPlatform {
   Future<void> openFormToSaveCard(Map<String, String> allConfigs) async {
     return methodChannel.invokeMethod<void>('openFormToSaveCard', allConfigs);
   }
+
+  @override
+  Future<void> openFormToPay(Map<String, String> allConfigs) async {
+    return methodChannel.invokeMethod<void>('openFormToPay', allConfigs);
+  }
 }
