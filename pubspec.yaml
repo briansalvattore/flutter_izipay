@@ -1,5 +1,5 @@
 name: flutter_izipay
-description: "A new Flutter plugin project for Izipay"
+description: "A Flutter wrapper for the official IziPay Android and iOS SDKs"
 version: 1.0.1
 maintainer: Brian Salvattore (@briansalvattore)
 homepage: https://github.com/briansalvattore/flutter_izipay
