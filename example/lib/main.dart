@@ -22,9 +22,8 @@ class _MyAppState extends State<MyApp> {
     super.initState();
 
     _flutterIzipayPlugin.resultStream.listen((data) {
-      print('--------_>xdata');
+      // ignore: avoid_print
       print(data.success);
-      // print(data.cardToken);
     });
   }
 
@@ -51,11 +50,12 @@ class _MyAppState extends State<MyApp> {
                     transactionId: '$random',
                   );
 
-                  _flutterIzipayPlugin.openFormToSaveCard(
+                  _flutterIzipayPlugin.payDirectly(
                     config: config,
                     transactionId: '$random',
+                    amount: '2.00',
                     user: (
-                      userId: '1234567890',
+                      userId: 'U1234567890',
                       firstName: 'Juan',
                       lastName: 'Perez',
                       email: 'juan.perez@example.com',

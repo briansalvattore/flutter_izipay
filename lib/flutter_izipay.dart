@@ -15,6 +15,7 @@ class FlutterIzipay {
     });
   }
 
+  @Deprecated('Do not use. This method is not ready for production yet.')
   Future<void> openFormToSaveCard({
     required IziPayConfig config,
     required String transactionId,
@@ -42,6 +43,7 @@ class FlutterIzipay {
     return value.padLeft(13, '0');
   }
 
+  /// This method is used to process direct payments.
   Future<void> payDirectly({
     required IziPayConfig config,
     required String transactionId,
