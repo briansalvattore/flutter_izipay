@@ -23,7 +23,11 @@ abstract class FlutterIzipayPlatform extends PlatformInterface {
     throw UnimplementedError('openFormToSaveCard() has not been implemented.');
   }
 
-  Future<void> openFormToPay(Map<String, String> allConfigs) {
+  Future<void> payWithCard(Map<String, String> allConfigs) {
+    throw UnimplementedError('openFormToPay() has not been implemented.');
+  }
+
+  Future<void> payWithYape(Map<String, String> allConfigs) {
     throw UnimplementedError('openFormToPay() has not been implemented.');
   }
 }

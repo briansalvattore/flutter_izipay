@@ -43,8 +43,7 @@ class FlutterIzipay {
     return value.padLeft(13, '0');
   }
 
-  /// This method is used to process direct payments.
-  Future<void> payDirectly({
+  Future<void> payWithCard({
     required IziPayConfig config,
     required String transactionId,
     required String amount,
@@ -53,7 +52,28 @@ class FlutterIzipay {
     required IziPayTheme theme,
     String webhookUrl = '_blank',
   }) {
-    return FlutterIzipayPlatform.instance.openFormToPay({
+    return FlutterIzipayPlatform.instance.payWithCard({
+      ...config.toJson(),
+      'transactionId': transactionId,
+      'orderNumber': _adjust13Length(transactionId),
+      'webhookUrl': webhookUrl,
+      'amount': amount,
+      ...user.toJson(),
+      ...address.toJson(),
+      ...theme.toJson(),
+    });
+  }
+
+  Future<void> payWithYape({
+    required IziPayConfig config,
+    required String transactionId,
+    required String amount,
+    required IziPayUser user,
+    required IziPayAddress address,
+    required IziPayTheme theme,
+    String webhookUrl = '_blank',
+  }) {
+    return FlutterIzipayPlatform.instance.payWithYape({
       ...config.toJson(),
       'transactionId': transactionId,
       'orderNumber': _adjust13Length(transactionId),

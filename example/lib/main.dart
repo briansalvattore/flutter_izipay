@@ -50,7 +50,7 @@ class _MyAppState extends State<MyApp> {
                     transactionId: '$random',
                   );
 
-                  _flutterIzipayPlugin.payDirectly(
+                  _flutterIzipayPlugin.payWithCard(
                     config: config,
                     transactionId: '$random',
                     amount: '2.00',

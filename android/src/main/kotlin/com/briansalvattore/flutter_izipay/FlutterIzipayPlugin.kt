@@ -85,9 +85,13 @@ class FlutterIzipayPlugin: FlutterPlugin, MethodCallHandler, EventChannel.Stream
             val data = call.arguments as Map<String, String>
             openFormToSaveCard(data)
         }
-        "openFormToPay" -> {
+        "payWithCard" -> {
             val data = call.arguments as Map<String, String>
-            openFormToPay(data)
+            payWithCard(data)
+        }
+        "payWithYape" -> {
+            val data = call.arguments as Map<String, String>
+            payWithYape(data)
         }
         else -> {
             result.notImplemented()
@@ -107,7 +111,69 @@ class FlutterIzipayPlugin: FlutterPlugin, MethodCallHandler, EventChannel.Stream
       eventSink?.success(data)
   }
 
-  private fun openFormToPay(map: Map<String, String>) {
+  private fun payWithYape(map: Map<String, String>) {
+      val request = ConfigRequest(
+        map["environment"] as String,
+        IZIPAY_PAY,
+        map["publicKey"] as String,
+        map["transactionId"] as String,
+        map["merchantCode"] as String,
+        "",
+        OrderPaymentIzipay(
+          map["orderNumber"] as String, //siempre debe tener 13 dígitos
+          "PEN",
+          map["amount"] as String,  // siempre debe tener el formato verificar 00.00
+          arrayListOf(PayOption.YAPE),
+          "mobile",
+          "autorize",
+          map["userId"] as String, // siempre debe tener una letra
+          System.currentTimeMillis().toString(),
+        ),
+        TokenPaymentIzipay(
+          "",
+        ),
+        BillingPaymentIzipay(
+          map["firstName"] as String,
+          map["lastName"] as String,
+          map["email"] as String,
+          map["phoneNumber"] as String,
+          map["street"] as String,
+          map["city"] as String,
+          map["state"] as String,
+          map["country"] as String,
+          map["postalCode"] as String,
+          map["documentType"] as String,
+          map["documentNumber"] as String,
+        ),
+        null,
+        AppearencePaymentIzipay(
+          "ESP",
+          AppearenceControlsPaymentIzipay(
+            true,
+            false,
+          ),
+          AppearenceVisualSettingsPaymentIzipay(
+            true,
+          ),
+          "purple",
+          CustomThemePaymentIzipay(
+            "#333399",
+            "#333399",
+            "#333399",
+          ),
+          map["logoUrl"] as String,
+        ),
+        map["webhookUrl"] as String,
+      )
+
+      Log.d("FlutterTapAndPayPlugin", "ConfigRequest ${request}")
+
+      val intent = Intent(activity!!, ContainerActivity::class.java)
+      intent.putExtra(ContainerActivity.REQUEST, request)
+      activity!!.startActivityForResult(intent, REQUEST_CODE_IZIPAY)
+  }
+
+  private fun payWithCard(map: Map<String, String>) {
       val request = ConfigRequest(
         map["environment"] as String,
         IZIPAY_PAY,

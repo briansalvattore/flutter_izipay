@@ -18,7 +18,12 @@ class MethodChannelFlutterIzipay extends FlutterIzipayPlatform {
   }
 
   @override
-  Future<void> openFormToPay(Map<String, String> allConfigs) async {
-    return methodChannel.invokeMethod<void>('openFormToPay', allConfigs);
+  Future<void> payWithCard(Map<String, String> allConfigs) async {
+    return methodChannel.invokeMethod<void>('payWithCard', allConfigs);
+  }
+
+  @override
+  Future<void> payWithYape(Map<String, String> allConfigs) async {
+    return methodChannel.invokeMethod<void>('payWithYape', allConfigs);
   }
 }
