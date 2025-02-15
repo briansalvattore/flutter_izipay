@@ -9,6 +9,7 @@ A Flutter wrapper for the official IziPay Android and iOS SDKs, enabling seamles
 ## 🚀 Features available
 
 - **Direct Payment Support**: Currently, the `payDirectly` method is the only available feature in this version.
+- **Yape Payment Support**: Currently, the `payWithYape` method is the only available feature in this version.
 
 ## 📋 Requirements
 
