@@ -21,9 +21,10 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
 
+    // ignore: unnecessary_lambdas
     _flutterIzipayPlugin.resultStream.listen((data) {
       // ignore: avoid_print
-      print(data.success);
+      print(data);
     });
   }
 
@@ -50,7 +51,7 @@ class _MyAppState extends State<MyApp> {
                     transactionId: '$random',
                   );
 
-                  _flutterIzipayPlugin.payWithCard(
+                  _flutterIzipayPlugin.payWithYape(
                     config: config,
                     transactionId: '$random',
                     amount: '2.00',

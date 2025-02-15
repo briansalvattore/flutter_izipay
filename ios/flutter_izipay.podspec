@@ -1,9 +1,9 @@
 Pod::Spec.new do |s|
   s.name             = 'flutter_izipay'
   s.version          = '0.0.1'
-  s.summary          = 'A new Flutter plugin project.'
+  s.summary          = 'A Flutter wrapper for the official IziPay Android and iOS SDKs.'
   s.description      = <<-DESC
-A new Flutter plugin project.
+A Flutter wrapper for the official IziPay Android and iOS SDKs, enabling seamless integration of direct payment functionalities into Flutter applications.s.
                        DESC
   s.homepage         = 'https://github.com/briansalvattore/flutter_izipay'
   s.license          = { :file => '../LICENSE' }

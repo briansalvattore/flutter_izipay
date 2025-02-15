@@ -17,7 +17,6 @@ public class FlutterIzipayPlugin: NSObject, FlutterPlugin, IzipayPaymentDelegate
 
     let instance: FlutterIzipayPlugin = FlutterIzipayPlugin()
     registrar.addMethodCallDelegate(instance, channel: methodChannel)
-
     eventChannel.setStreamHandler(instance)
   }
 
@@ -28,119 +27,82 @@ public class FlutterIzipayPlugin: NSObject, FlutterPlugin, IzipayPaymentDelegate
         rootViewController.overrideUserInterfaceStyle = .light
       }
 
-      if let args = call.arguments as? [String: String] {
-        let street = args["street"]!
-        let city = args["city"]!
-        let state = args["state"]!
-        let country = args["country"]!
-        let postalCode = args["postalCode"]!
-        let logoUrl = args["logoUrl"]!
-        let userId = args["userId"]!
-        let firstName = args["firstName"]!
-        let lastName = args["lastName"]!
-        let email = args["email"]!
-        let phoneNumber = args["phoneNumber"]!
-        let documentType = args["documentType"]!
-        let documentNumber = args["documentNumber"]!
-        let environment = args["environment"]!
-        let merchantCode = args["merchantCode"]!
-        let publicKey = args["publicKey"]!
-        let transactionId = args["transactionId"]!
+      guard let args = call.arguments as? [String: String] else { return }
 
-        openFormToSaveCard(
-          street: street,
-          city: city,
-          state: state,
-          country: country,
-          postalCode: postalCode,
-          logoUrl: logoUrl,
-          userId: userId,
-          firstName: firstName,
-          lastName: lastName,
-          email: email,
-          phoneNumber: phoneNumber,
-          documentType: documentType,
-          documentNumber: documentNumber,
-          environment: environment,
-          merchantCode: merchantCode,
-          publicKey: publicKey,
-          transactionId: transactionId
-        )
-        result(nil)
+      openFormToSaveCard(data: args)
+    case "payWithCard":
+      if let rootViewController = UIApplication.shared.windows.first?.rootViewController {
+        rootViewController.overrideUserInterfaceStyle = .light
       }
+
+      guard let args = call.arguments as? [String: String] else { return }
+
+      payWithCard(data: args)
+    case "payWithYape":
+      if let rootViewController = UIApplication.shared.windows.first?.rootViewController {
+        rootViewController.overrideUserInterfaceStyle = .light
+      }
+
+      guard let args = call.arguments as? [String: String] else { return }
+
+      payWithYape(data: args)
     default:
       result(FlutterMethodNotImplemented)
     }
   }
 
-  func openFormToSaveCard(
-    street: String,
-    city: String,
-    state: String,
-    country: String,
-    postalCode: String,
-    logoUrl: String,
-    userId: String,
-    firstName: String,
-    lastName: String,
-    email: String,
-    phoneNumber: String,
-    documentType: String,
-    documentNumber: String,
-    environment: String,
-    merchantCode: String,
-    publicKey: String,
-    transactionId: String
-  ) {
+  func openFormToSaveCard(data: [String: String]) {
+    print("openFormToSaveCard: \(data)")
+  }
+
+  func payWithCard(data: [String: String]) {
     let date = Date()
     let milliseconds = Int(date.timeIntervalSince1970 * 1000)
 
     var configPayment = ConfigPaymentIzipay()
-    configPayment.enviroment = environment
-    configPayment.merchantCode = merchantCode
-
-    configPayment.publicKey = publicKey
-
-    configPayment.transactionId = transactionId
-    configPayment.action = "register"  // "pay_token" //register
+    configPayment.enviroment = data["environment"]
+    configPayment.action = "pay"
+    configPayment.publicKey = data["publicKey"]
+    configPayment.transactionId = data["transactionId"]
+    configPayment.merchantCode = data["merchantCode"]
 
     configPayment.order = OrderPaymentIzipay()
-    configPayment.order?.orderNumber = "10\(transactionId)"
-    configPayment.order?.amount = "0.00"  // si action=register puede ser 0, si no
+    configPayment.order?.orderNumber = data["orderNumber"]
     configPayment.order?.currency = "PEN"
+    configPayment.order?.amount = data["amount"]
+    configPayment.order?.payMethod = [PaymentMethodIzipay.card]
+
     configPayment.order?.processType = "autorize"
-    configPayment.order?.payMethod = [PaymentMethodIzipay.card]  //[.all]
-    configPayment.order?.merchantBuyerId = userId  //"MB10\(transactionId)"
+    configPayment.order?.merchantBuyerId = data["userId"]
     configPayment.order?.dateTimeTransaction = "\(milliseconds)"
-
-    configPayment.billing = BillingPaymentIzipay()
-    configPayment.billing?.firstName = firstName
-    configPayment.billing?.lastName = lastName
-    configPayment.billing?.email = email
-    configPayment.billing?.phoneNumber = phoneNumber
-    configPayment.billing?.street = street
-    configPayment.billing?.city = city
-    configPayment.billing?.state = state
-    configPayment.billing?.country = country
-    configPayment.billing?.postalCode = postalCode
-    configPayment.billing?.documentType = documentType
-    configPayment.billing?.document = documentNumber
-
-    configPayment.shipping = ShippingPaymentIzipay()
 
     configPayment.token = TokenPaymentIzipay()
 
-    configPayment.appearance = AppearencePaymentIzipay()
-    configPayment.appearance?.theme = "purple"
-    configPayment.appearance?.logo = logoUrl
-    configPayment.appearance?.formControls = AppearenceControlsPaymentIzipay()
-    configPayment.appearance?.formControls?.isAmountLabelVisible = false
-    configPayment.appearance?.formControls?.isLangControlVisible = false
-    configPayment.appearance?.language = "ESP"
-    configPayment.appearance?.customTheme = CustomThemePaymentIzipay()
+    configPayment.billing = BillingPaymentIzipay()
+    configPayment.billing?.firstName = data["firstName"]
+    configPayment.billing?.lastName = data["lastName"]
+    configPayment.billing?.email = data["email"]
+    configPayment.billing?.phoneNumber = data["phoneNumber"]
+    configPayment.billing?.street = data["street"]
+    configPayment.billing?.city = data["city"]
+    configPayment.billing?.state = data["state"]
+    configPayment.billing?.country = data["country"]
+    configPayment.billing?.postalCode = data["postalCode"]
+    configPayment.billing?.documentType = data["documentType"]
+    configPayment.billing?.document = data["documentNumber"]
 
+    configPayment.shipping = ShippingPaymentIzipay()
+
+    configPayment.appearance = AppearencePaymentIzipay()
+    configPayment.appearance?.language = "ESP"
+    configPayment.appearance?.formControls = AppearenceControlsPaymentIzipay()
+    configPayment.appearance?.formControls?.isAmountLabelVisible = true
+    configPayment.appearance?.formControls?.isLangControlVisible = false
     configPayment.appearance?.visualSettings = AppearenceVisualSettingsPaymentIzipay()
     configPayment.appearance?.visualSettings?.presentationMode = .fullscreen
+    configPayment.appearance?.theme = "purple"
+    configPayment.appearance?.customTheme = CustomThemePaymentIzipay()
+    configPayment.appearance?.logo = data["logoUrl"]
 
     let sensoryBrandingVisa = SensoryBranding()
     sensoryBrandingVisa.backdropColor = .white
@@ -155,7 +117,94 @@ public class FlutterIzipayPlugin: NSObject, FlutterPlugin, IzipayPaymentDelegate
     configPayment.appearance?.sensoryBrand?.visaSBView = sensoryBrandingVisa
     configPayment.appearance?.sensoryBrand?.mastercardSBView = sensoryBrandMastercard
 
-    configPayment.urlIPN = nil
+    configPayment.urlIPN = data["webhookUrl"]
+
+    let s = UIStoryboard(name: "IziPayment", bundle: Bundle(for: PaymentFormViewController.self))
+    let vc =
+      s.instantiateViewController(withIdentifier: "PaymentFormView") as! PaymentFormViewController
+    vc.delegate = self
+    vc.configPayment = configPayment
+    vc.modalPresentationStyle = .fullScreen
+
+    guard
+      let rootViewController = UIApplication.shared.connectedScenes
+        .compactMap({ $0 as? UIWindowScene })
+        .flatMap({ $0.windows })
+        .first(where: { $0.isKeyWindow })?.rootViewController
+    else {
+      print("No se pudo obtener el rootViewController")
+      return
+    }
+
+    DispatchQueue.main.async {
+      rootViewController.present(vc, animated: true, completion: nil)
+    }
+  }
+
+  func payWithYape(data: [String: String]) {
+    
+    let date = Date()
+    let milliseconds = Int(date.timeIntervalSince1970 * 1000)
+
+    var configPayment = ConfigPaymentIzipay()
+    configPayment.enviroment = data["environment"]
+    configPayment.action = "pay"
+    configPayment.publicKey = data["publicKey"]
+    configPayment.transactionId = data["transactionId"]
+    configPayment.merchantCode = data["merchantCode"]
+
+    configPayment.order = OrderPaymentIzipay()
+    configPayment.order?.orderNumber = data["orderNumber"]
+    configPayment.order?.currency = "PEN"
+    configPayment.order?.amount = data["amount"]
+    configPayment.order?.payMethod = [PaymentMethodIzipay.yape_code]
+
+    configPayment.order?.processType = "autorize"
+    configPayment.order?.merchantBuyerId = data["userId"]
+    configPayment.order?.dateTimeTransaction = "\(milliseconds)"
+
+    configPayment.token = TokenPaymentIzipay()
+
+    configPayment.billing = BillingPaymentIzipay()
+    configPayment.billing?.firstName = data["firstName"]
+    configPayment.billing?.lastName = data["lastName"]
+    configPayment.billing?.email = data["email"]
+    configPayment.billing?.phoneNumber = data["phoneNumber"]
+    configPayment.billing?.street = data["street"]
+    configPayment.billing?.city = data["city"]
+    configPayment.billing?.state = data["state"]
+    configPayment.billing?.country = data["country"]
+    configPayment.billing?.postalCode = data["postalCode"]
+    configPayment.billing?.documentType = data["documentType"]
+    configPayment.billing?.document = data["documentNumber"]
+
+    configPayment.shipping = ShippingPaymentIzipay()
+
+    configPayment.appearance = AppearencePaymentIzipay()
+    configPayment.appearance?.language = "ESP"
+    configPayment.appearance?.formControls = AppearenceControlsPaymentIzipay()
+    configPayment.appearance?.formControls?.isAmountLabelVisible = true
+    configPayment.appearance?.formControls?.isLangControlVisible = false
+    configPayment.appearance?.visualSettings = AppearenceVisualSettingsPaymentIzipay()
+    configPayment.appearance?.visualSettings?.presentationMode = .fullscreen
+    configPayment.appearance?.theme = "purple"
+    configPayment.appearance?.customTheme = CustomThemePaymentIzipay()
+    configPayment.appearance?.logo = data["logoUrl"]
+
+    let sensoryBrandingVisa = SensoryBranding()
+    sensoryBrandingVisa.backdropColor = .white
+    sensoryBrandingVisa.isSoundEnabled = true
+    sensoryBrandingVisa.isHapticFeedbackEnabled = true
+    sensoryBrandingVisa.checkmarkMode = .checkmark
+
+    let sensoryBrandMastercard = MCSonicView()
+    sensoryBrandMastercard.background = MCSonicBackground.white
+
+    configPayment.appearance?.sensoryBrand = AppearenceSensoryBrandIzipay()
+    configPayment.appearance?.sensoryBrand?.visaSBView = sensoryBrandingVisa
+    configPayment.appearance?.sensoryBrand?.mastercardSBView = sensoryBrandMastercard
+
+    configPayment.urlIPN = data["webhookUrl"]
 
     let s = UIStoryboard(name: "IziPayment", bundle: Bundle(for: PaymentFormViewController.self))
     let vc =
@@ -183,19 +232,19 @@ public class FlutterIzipayPlugin: NSObject, FlutterPlugin, IzipayPaymentDelegate
     let resultCode = paymentResult.code ?? ""
 
     if resultCode == "00" {
-      let cardToken = paymentResult.response?.token?.cardToken
-
-      print(cardToken ?? "No se encontró el cardToken")
-
       let dataToSend: [String: Any?] = [
         "success": true,
-        "cardToken": cardToken,
+        "code": paymentResult.code,
+        "cardToken": paymentResult.response?.token?.cardToken,
+        "cardPan": paymentResult.response?.card?.pan,
+        "cardBrand": paymentResult.response?.card?.brand,
       ]
       self.sendResultToFlutter(result: dataToSend)
-    } else {
+    } 
+    else {
       let dataToSend: [String: Any?] = [
         "success": false,
-        "cardToken": nil,
+        "code": paymentResult.code,
       ]
       self.sendResultToFlutter(result: dataToSend)
     }
