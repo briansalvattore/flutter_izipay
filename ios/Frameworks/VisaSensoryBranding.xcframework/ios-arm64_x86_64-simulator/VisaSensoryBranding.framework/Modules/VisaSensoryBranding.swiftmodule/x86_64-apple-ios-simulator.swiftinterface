@@ -1,29 +1,34 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 5.5 (swiftlang-1300.0.31.1 clang-1300.0.29.1)
+// swift-compiler-version: Apple Swift version 5.9 (swiftlang-5.9.0.128.108 clang-1500.0.40.1)
 // swift-module-flags: -target x86_64-apple-ios13.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name VisaSensoryBranding
+// swift-module-flags-ignorable: -enable-bare-slash-regex
 import AVFAudio
 import AudioToolbox
 import CoreGraphics
+import DeveloperToolsSupport
 import Foundation
 import QuartzCore
 import Swift
+import SwiftUI
 import UIKit
 import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
 public struct LangDescriptor : Swift.Codable {
   public struct TextOptionData : Swift.Codable {
     public var approve: Swift.String
     public var success: Swift.String
     public var complete: Swift.String
-    public func encode(to encoder: Swift.Encoder) throws
-    public init(from decoder: Swift.Decoder) throws
+    public func encode(to encoder: any Swift.Encoder) throws
+    public init(from decoder: any Swift.Decoder) throws
   }
   public var name: Swift.String
   public var code: Swift.String
   public var fontFamily: Swift.String
   public var fontNames: Swift.String
   public var data: VisaSensoryBranding.LangDescriptor.TextOptionData
-  public func encode(to encoder: Swift.Encoder) throws
-  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
 }
 public class Theme {
   public init(backgroundColor: UIKit.UIColor)
@@ -31,7 +36,7 @@ public class Theme {
   public func getBackgroundColor() -> UIKit.UIColor
   @objc deinit
 }
-public typealias CompletionBlock = (Swift.Bool, Swift.Error?) -> Swift.Void
+public typealias CompletionBlock = (Swift.Bool, (any Swift.Error)?) -> Swift.Void
 @_inheritsConvenienceInitializers @objc @_Concurrency.MainActor(unsafe) public class SensoryBranding : UIKit.UIView {
   @objc @_Concurrency.MainActor(unsafe) public var isSoundEnabled: Swift.Bool
   @objc @_Concurrency.MainActor(unsafe) public var isHapticFeedbackEnabled: Swift.Bool
@@ -49,37 +54,37 @@ public typealias CompletionBlock = (Swift.Bool, Swift.Error?) -> Swift.Void
     @objc get
     @objc set
   }
-  @objc @_Concurrency.MainActor(unsafe) override dynamic open var backgroundColor: UIKit.UIColor? {
-    @_Concurrency.MainActor(unsafe) @objc get
-    @_Concurrency.MainActor(unsafe) @objc set
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open var backgroundColor: UIKit.UIColor? {
+    @objc get
+    @objc set
   }
-  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(frame: CoreGraphics.CGRect)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(frame: CoreFoundation.CGRect)
   @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder aDecoder: Foundation.NSCoder)
-  @_Concurrency.MainActor(unsafe) @objc override dynamic open var bounds: CoreGraphics.CGRect {
-    @_Concurrency.MainActor(unsafe) @objc get
-    @_Concurrency.MainActor(unsafe) @objc set
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open var bounds: CoreFoundation.CGRect {
+    @objc get
+    @objc set
   }
-  @_Concurrency.MainActor(unsafe) @objc override dynamic open var frame: CoreGraphics.CGRect {
-    @_Concurrency.MainActor(unsafe) @objc get
-    @_Concurrency.MainActor(unsafe) @objc set
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open var frame: CoreFoundation.CGRect {
+    @objc get
+    @objc set
   }
-  @_Concurrency.MainActor(unsafe) @objc override dynamic open func sizeThatFits(_ size: CoreGraphics.CGSize) -> CoreGraphics.CGSize
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open func sizeThatFits(_ size: CoreFoundation.CGSize) -> CoreFoundation.CGSize
   @objc @_Concurrency.MainActor(unsafe) public func animate(completion: VisaSensoryBranding.CompletionBlock? = nil)
   @objc deinit
 }
 extension UIKit.UIColor {
-  convenience public init(hexString: Swift.String, alpha: CoreGraphics.CGFloat = 1.0)
+  convenience public init(hexString: Swift.String, alpha: CoreFoundation.CGFloat = 1.0)
   public func toHexString() -> Swift.String
-  public func image(_ size: CoreGraphics.CGSize = CGSize(width: 1, height: 1)) -> UIKit.UIImage
+  public func image(_ size: CoreFoundation.CGSize = CGSize(width: 1, height: 1)) -> UIKit.UIImage
   public var coreImageColor: CoreImage.CIColor {
     get
   }
   public var hex: Swift.UInt {
     get
   }
-  public static func contrastRatio(between color1: UIKit.UIColor, and color2: UIKit.UIColor) -> CoreGraphics.CGFloat
-  public func contrastRatio(with color: UIKit.UIColor) -> CoreGraphics.CGFloat
-  public func luminance() -> CoreGraphics.CGFloat
+  public static func contrastRatio(between color1: UIKit.UIColor, and color2: UIKit.UIColor) -> CoreFoundation.CGFloat
+  public func contrastRatio(with color: UIKit.UIColor) -> CoreFoundation.CGFloat
+  public func luminance() -> CoreFoundation.CGFloat
 }
 @objc public enum CheckmarkMode : Swift.Int {
   case checkmark

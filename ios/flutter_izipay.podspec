@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'flutter_izipay'
-  s.version          = '0.0.1'
+  s.version          = '1.1.1'
   s.summary          = 'A Flutter wrapper for the official IziPay Android and iOS SDKs.'
   s.description      = <<-DESC
 A Flutter wrapper for the official IziPay Android and iOS SDKs, enabling seamless integration of direct payment functionalities into Flutter applications.s.
@@ -17,4 +17,7 @@ A Flutter wrapper for the official IziPay Android and iOS SDKs, enabling seamles
   s.swift_version = '5.0'
 
   s.vendored_frameworks = 'Frameworks/IzipayPayButtonSDK.framework' ,'Frameworks/MastercardSonic.xcframework' ,'Frameworks/VisaSensoryBranding.xcframework'
+  s.pod_target_xcconfig = {
+    'ENABLE_BITCODE' => 'NO'
+  }
 end

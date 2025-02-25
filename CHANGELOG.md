@@ -10,3 +10,7 @@
 ## 1.1.0
 * Complete: payWithYape method
 * TODO: add new method to save card
+
+
+## 1.1.1
+* FIX: VisaSensoryBrand fixed compilation with bitcode

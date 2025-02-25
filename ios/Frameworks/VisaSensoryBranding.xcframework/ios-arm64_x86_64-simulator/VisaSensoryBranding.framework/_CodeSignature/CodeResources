@@ -6,63 +6,55 @@
 	<dict>
 		<key>Assets.car</key>
 		<data>
-		MxpDrLY8aEYI+gxwufZvvSfj39w=
+		QpYVUVnXgzm+/s2GoOCY2lDmDaA=
 		</data>
 		<key>Headers/VisaSensoryBranding-Swift.h</key>
 		<data>
-		w1T7qnvU/oon88NUneozSM+VbYE=
+		DK2tJQqKeWMu7v2zplXAW2C2Idc=
 		</data>
 		<key>Info.plist</key>
 		<data>
-		Fl3S4ZC4J2XXEb2kvfy7djMyE1Y=
+		tIAsAGsrGOA6FDqCM4569RVyuEw=
+		</data>
+		<key>Modules/VisaSensoryBranding.swiftmodule/arm64-apple-ios-simulator.abi.json</key>
+		<data>
+		YGKNJHUExaQ9nQNd7PPr4EMJauI=
+		</data>
+		<key>Modules/VisaSensoryBranding.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
+		<data>
+		d0h1GKhM0zho6c67GyrigJb+MGI=
 		</data>
 		<key>Modules/VisaSensoryBranding.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
 		<data>
-		+zo2bDH40vM5rvwKigT7SfcJEmU=
+		c55dqvmRj+X2cCN2QlCUKNWMvUs=
 		</data>
 		<key>Modules/VisaSensoryBranding.swiftmodule/arm64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		CyFCtXQVhXPkQbm7hrHzNMUEWeo=
+		d0h1GKhM0zho6c67GyrigJb+MGI=
 		</data>
 		<key>Modules/VisaSensoryBranding.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		zCO/gP0mJne6pEacj/sJDmx+3i4=
+		+G5+aR53ZCgajgRcsu/tP4iIS2I=
 		</data>
-		<key>Modules/VisaSensoryBranding.swiftmodule/arm64.swiftdoc</key>
+		<key>Modules/VisaSensoryBranding.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<data>
-		+zo2bDH40vM5rvwKigT7SfcJEmU=
+		YGKNJHUExaQ9nQNd7PPr4EMJauI=
 		</data>
-		<key>Modules/VisaSensoryBranding.swiftmodule/arm64.swiftinterface</key>
+		<key>Modules/VisaSensoryBranding.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
 		<data>
-		CyFCtXQVhXPkQbm7hrHzNMUEWeo=
-		</data>
-		<key>Modules/VisaSensoryBranding.swiftmodule/arm64.swiftmodule</key>
-		<data>
-		zCO/gP0mJne6pEacj/sJDmx+3i4=
+		vI+ntnU7Dx9xMfwi0JhrUmuo7ug=
 		</data>
 		<key>Modules/VisaSensoryBranding.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<data>
-		bIAzTAyH0oGNhTzx8iL0Ex1raNA=
+		Cc4RBYRvyvrWyLeskrSSyidD9eA=
 		</data>
 		<key>Modules/VisaSensoryBranding.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		C0J2ooMWGXSqpM7UPANg9T2s/mY=
+		vI+ntnU7Dx9xMfwi0JhrUmuo7ug=
 		</data>
 		<key>Modules/VisaSensoryBranding.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		sKjjMcWSdl74vyEFW2ZjreyAR9A=
-		</data>
-		<key>Modules/VisaSensoryBranding.swiftmodule/x86_64.swiftdoc</key>
-		<data>
-		bIAzTAyH0oGNhTzx8iL0Ex1raNA=
-		</data>
-		<key>Modules/VisaSensoryBranding.swiftmodule/x86_64.swiftinterface</key>
-		<data>
-		C0J2ooMWGXSqpM7UPANg9T2s/mY=
-		</data>
-		<key>Modules/VisaSensoryBranding.swiftmodule/x86_64.swiftmodule</key>
-		<data>
-		sKjjMcWSdl74vyEFW2ZjreyAR9A=
+		aFMEt9qKJpJQEuh3lUSblUzXWpU=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -127,98 +119,84 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			9w0bSDPehWZ+GDFG6VxdHTXQTdAlrHcQWkeIZ+lbPpo=
+			xG49DiNt+oSOBndaQLftVAvkZYCV5DB9QaBMPFaPaDM=
 			</data>
 		</dict>
 		<key>Headers/VisaSensoryBranding-Swift.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			c6XGUw1SVfiIuguHZQNY71vRhvq9Qdx07xa7m8yMmwQ=
+			NQsRKpQrzDyo1zCu1W5k4E2zDkzELWa3hTFrvWMcncM=
+			</data>
+		</dict>
+		<key>Modules/VisaSensoryBranding.swiftmodule/arm64-apple-ios-simulator.abi.json</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			xNvpxpLk7Bh153dpsES/cBChILUv8o49KwKSMs8wUvo=
+			</data>
+		</dict>
+		<key>Modules/VisaSensoryBranding.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			p6MRQwe4dfH2sq1w0qhrWQeFGlnllAcuvIMJFbhmvkE=
 			</data>
 		</dict>
 		<key>Modules/VisaSensoryBranding.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			nAllXlYoxV155c9SB02N9+LyPXDd7whnd6JBacY6c3A=
+			ZNYc2X/lpt0hoKXGcGOlyKTzdW53I/8HsvEkckBt6Fk=
 			</data>
 		</dict>
 		<key>Modules/VisaSensoryBranding.swiftmodule/arm64-apple-ios-simulator.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			N/dcxO0aK1VoMUER4FxW4kRrQwa1eXIucBJ6oEoiSVA=
+			p6MRQwe4dfH2sq1w0qhrWQeFGlnllAcuvIMJFbhmvkE=
 			</data>
 		</dict>
 		<key>Modules/VisaSensoryBranding.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			wp0YQETN7Jd9lWVwKn95/3wHgnvpO0h9XD9ZuZnFPfU=
+			2TrNs3lMnlfqYUsuqaAlugUqYUm9Rtu2X2i/289xPhk=
 			</data>
 		</dict>
-		<key>Modules/VisaSensoryBranding.swiftmodule/arm64.swiftdoc</key>
+		<key>Modules/VisaSensoryBranding.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			nAllXlYoxV155c9SB02N9+LyPXDd7whnd6JBacY6c3A=
+			xNvpxpLk7Bh153dpsES/cBChILUv8o49KwKSMs8wUvo=
 			</data>
 		</dict>
-		<key>Modules/VisaSensoryBranding.swiftmodule/arm64.swiftinterface</key>
+		<key>Modules/VisaSensoryBranding.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			N/dcxO0aK1VoMUER4FxW4kRrQwa1eXIucBJ6oEoiSVA=
-			</data>
-		</dict>
-		<key>Modules/VisaSensoryBranding.swiftmodule/arm64.swiftmodule</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			wp0YQETN7Jd9lWVwKn95/3wHgnvpO0h9XD9ZuZnFPfU=
+			JZXYqEC6qwHp4PqoJbOwuDUTI8hFPFBFK9Uv3o29luU=
 			</data>
 		</dict>
 		<key>Modules/VisaSensoryBranding.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			ku7dvPqQSvBoiQ/LBzPhU2+4YQJ0mtvaQ3qFprQr3w4=
+			vpfprfAd4J3DWm9AgYJAViW95F7h9XdZVWUit4N3Q4o=
 			</data>
 		</dict>
 		<key>Modules/VisaSensoryBranding.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			hsGjVkb43Vks9/QPE6XyTH+IWvMkfjwS0u6XNNISqRI=
+			JZXYqEC6qwHp4PqoJbOwuDUTI8hFPFBFK9Uv3o29luU=
 			</data>
 		</dict>
 		<key>Modules/VisaSensoryBranding.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			havEAWNMoSTEccetOhQ9ThO8s4b3bNOKf1CfpsqltjU=
-			</data>
-		</dict>
-		<key>Modules/VisaSensoryBranding.swiftmodule/x86_64.swiftdoc</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			ku7dvPqQSvBoiQ/LBzPhU2+4YQJ0mtvaQ3qFprQr3w4=
-			</data>
-		</dict>
-		<key>Modules/VisaSensoryBranding.swiftmodule/x86_64.swiftinterface</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			hsGjVkb43Vks9/QPE6XyTH+IWvMkfjwS0u6XNNISqRI=
-			</data>
-		</dict>
-		<key>Modules/VisaSensoryBranding.swiftmodule/x86_64.swiftmodule</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			havEAWNMoSTEccetOhQ9ThO8s4b3bNOKf1CfpsqltjU=
+			AL40oeWr3lmZGGXePxl8ke14SFa76WAvjWwQqcqINLE=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
